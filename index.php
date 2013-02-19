@@ -1,27 +1,25 @@
 <?php
 
-include_once 'dbi/DBI.php';
-include_once 'languages/english.lang.php';
+/* The current configuration */
 include_once 'config.php';
+
+/* i18n for error/warning messages */
+include_once 'languages/english.lang.php';
+
+/* Backend */
+include_once 'dbi/DBI.php';
 include_once 'models/MODELS.php';
+include_once 'views/VIEWS.php';
 
-echo "Connecting to database";
+/* Required backend */
+$db = Photon_helper_GetDefaultDBConnection();
+$model = new Page($db);
+$vu = new PageView($model, 1);
 
-$my = new Photon_SQLiteDB("data/demo.db");
-$state = $my->connect();
+/* Generate template path */
+$template_path = 'UX/' .PHOTON_TEMPLATE .".php";
 
-$test = "SELECT * FROM PAGES";
+/* Activate template! */
+include_once $template_path;
 
-$res = $my->raw_query($test);
-$results = $my->as_array();
-
-$kv_pairs = array();
-$kv_pairs['title'] = 'poopah_test';
-
-$page = new Page($my);
-$page->set_id(1);
-$page->read();
-
-$my->set_table("test_pages");
-$my->insert($kv_pairs);
 ?>

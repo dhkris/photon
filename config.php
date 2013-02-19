@@ -12,6 +12,16 @@ define("PHOTON_WEBMASTER_NAME", "David Kristensen");
 define("PHOTON_ROOTURL", "/");
 define("PHOTON_SUBFOLDER", "");
 
+/* DATABASE CONFIGURATION */
 define("PHOTON_DBTYPE", PhotonDBType::$SQLite);
 define("PHOTON_DBPORT", PhotonDBPort::$SQLite3);
+define("PHOTON_DBPATH", "data/demo.db");
+
+define("PHOTON_TEMPLATE", "template_default");
+
+/* Database user/password configuration
+ * Required for MySQL and PgSQL; unneeded for SQLite
+define("PHOTON_DBUSER", "root");
+define("PHOTON_DBPASS", "Da-110689");
+ * */
 ?>
