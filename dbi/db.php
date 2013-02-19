@@ -20,20 +20,17 @@ abstract class Photon_Database {
         $sql = "INSERT INTO " . $table . " (";
         foreach ($kvpairs as $field => $value) {
             $fields[] = $field;
-            $values[] = sqlite_escape_string($value);
-            /* Safety first! */
+            $values[] = sqlite_escape_string($value); /* Safety first! */
         }
-        foreach ($fields as $field) {/* Add fields */
+        foreach ($fields as $field) {  /* Add fields */
             $sql .= $field . ",";
         }
-        $sql = rtrim($sql, ',');
-        /* Remove extraneous , from the end of the SQL string */
+        $sql = rtrim($sql, ',');/* Remove extraneous , from the end of the SQL string */
         $sql .= ") VALUES(";
         foreach ($values as $value) {/* Add values */
             $sql .= "'" . $value . "',";
         }
-        $sql = rtrim($sql, ",");
-        /* Remove extraneous , from the end of the SQL string */
+        $sql = rtrim($sql, ","); /* Remove extraneous , from the end of the SQL string */
         $sql .= ");";
         echo $sql . "\n";
         return $sql;
@@ -45,11 +42,11 @@ abstract class Photon_Database {
 
     /* Set the active table */
     function set_table($name) {
-        $this -> _table = $name;
+        $this->_table = $name;
     }
 
     function get_table() {
-        return $this -> _table;
+        return $this->_table;
     }
 
     abstract function insert($values);

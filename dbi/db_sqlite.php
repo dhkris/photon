@@ -11,21 +11,21 @@ class Photon_SQLiteDB extends Photon_Database {
     protected $_table;
 
     function __construct($path, $port = -1) {
-        $this -> path = $path;
-        $this -> port = -1;
-        $this -> qc = 0;
-        $this -> opened = FALSE;
+        $this->path = $path;
+        $this->port = -1;
+        $this->qc = 0;
+        $this->opened = FALSE;
     }
 
     function connect() {
-        if ($this -> opened == FALSE) {
+        if ($this->opened == FALSE) {
             try {
-                $this -> db_ptr = new SQLite3($this -> path);
-                $this -> opened = TRUE;
+                $this->db_ptr = new SQLite3($this->path);
+                $this->opened = TRUE;
                 return 0;
             } catch (Exception $e) {
                 echo PERR_DB_CONNECTFAIL;
-                $this -> opened = FALSE;
+                $this->opened = FALSE;
                 return ERRCODE_DB_CONN;
             }
         } else {
@@ -35,23 +35,23 @@ class Photon_SQLiteDB extends Photon_Database {
     }
 
     function raw_query($query) {
-        if ($this -> opened == FALSE) {
+        if ($this->opened == FALSE) {
             echo PERR_DB_NOTOPENONQUERY;
             return ERRCODE_DB_WRONGSTATE;
         }
-        $res = $this -> db_ptr -> query($query);
-        $this -> qc++;
-        $this -> buffer = $res;
+        $res = $this->db_ptr->query($query);
+        $this->qc++;
+        $this->buffer = $res;
         return $res;
     }
 
     function as_array() {
-        if ($this -> qc <= 0) {
+        if ($this->qc <= 0) {
             echo PERR_DB_NOQUERIESYET;
             return ERRCODE_DB_WRONGSTATE;
         } else {
             $rows = array();
-            while ($row = $this -> buffer -> fetchArray(SQLITE3_ASSOC)) {
+            while ($row = $this->buffer->fetchArray(SQLITE3_ASSOC)) {
                 $rows[] = $row;
             }
             return $rows;
@@ -65,10 +65,10 @@ class Photon_SQLiteDB extends Photon_Database {
 
     function insert($kvpairs) {
 
-        $sql = $this -> _prepare_insert($kvpairs, $this -> _table);
+        $sql = $this->_prepare_insert($kvpairs, $this->_table);
 
-        if ($this -> opened == TRUE) {
-            $this -> db_ptr -> exec($sql);
+        if ($this->opened == TRUE) {
+            $this->db_ptr->exec($sql);
             /* Perform write! */
             return 0;
         } else {
@@ -87,11 +87,11 @@ class Photon_SQLiteDB extends Photon_Database {
     }
 
     function close() {
-        if ($this -> opened == FALSE) {
+        if ($this->opened == FALSE) {
             echo PERR_DB_NOTOPENONQUERY;
             return ERRCODE_DB_WRONGSTATE;
         }
-        $db_ptr -> close();
+        $db_ptr->close();
     }
 
 }
